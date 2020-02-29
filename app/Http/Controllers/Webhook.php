@@ -102,4 +102,40 @@ class Webhook extends Controller
             $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
         }
     }
+
+    private function textMessage($event)
+    {
+        $userMessage = $event['message']['text'];
+        
+        // for now i dont want to response text message
+
+        // create text message
+        $message = 'Silakan kirim gambar ss Anime, bukan teks';
+        $textMessageBuilder = new TextMessageBuilder($message);
+    
+        // merge all message
+        $multiMessageBuilder = new MultiMessageBuilder();
+        $multiMessageBuilder->add($stickerMessageBuilder);
+
+        // send message
+        $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+    }
+
+    private function stickerMessage($event)
+    {
+        // create sticker message
+        $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
+    
+        // create text message
+        $message = 'Silakan kirim gambar ss Anime, bukan stiker';
+        $textMessageBuilder = new TextMessageBuilder($message);
+    
+        // merge all message
+        $multiMessageBuilder = new MultiMessageBuilder();
+        $multiMessageBuilder->add($stickerMessageBuilder);
+        $multiMessageBuilder->add($textMessageBuilder);
+    
+        // send message
+        $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+    }
 }
