@@ -110,15 +110,11 @@ class Webhook extends Controller
         // for now i dont want to response text message
 
         // create text message
-        $message = 'Silakan kirim gambar ss Anime, bukan teks';
+        $message = 'Silahkan kirim gambar ss Anime, bukan teks';
         $textMessageBuilder = new TextMessageBuilder($message);
-    
-        // merge all message
-        $multiMessageBuilder = new MultiMessageBuilder();
-        $multiMessageBuilder->add($stickerMessageBuilder);
 
         // send message
-        $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+        $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
     }
 
     private function stickerMessage($event)
@@ -127,7 +123,7 @@ class Webhook extends Controller
         $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
     
         // create text message
-        $message = 'Silakan kirim gambar ss Anime, bukan stiker';
+        $message = 'Silahkan kirim gambar ss Anime, bukan stiker';
         $textMessageBuilder = new TextMessageBuilder($message);
     
         // merge all message
