@@ -115,7 +115,7 @@ class Webhook extends Controller
         // for now i dont want to response text message
 
         // create text message
-        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
+        $textMessageBuilder = new TextMessageBuilder($this->notSupportedMessage($event));
 
         // send message
         $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
@@ -134,7 +134,7 @@ class Webhook extends Controller
     private function videoMessage($event)
     {
         // create text message
-        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
+        $textMessageBuilder = new TextMessageBuilder($this->notSupportedMessage($event));
 
         // send message
         $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
@@ -143,7 +143,7 @@ class Webhook extends Controller
     private function audioMessage($event)
     {
         // create text message
-        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
+        $textMessageBuilder = new TextMessageBuilder($this->notSupportedMessage($event));
 
         // send message
         $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
@@ -152,7 +152,7 @@ class Webhook extends Controller
     private function fileMessage($event)
     {
         // create text message
-        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
+        $textMessageBuilder = new TextMessageBuilder($this->notSupportedMessage($event));
 
         // send message
         $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
@@ -163,7 +163,7 @@ class Webhook extends Controller
         // create sticker message
         $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
     
-        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
+        $textMessageBuilder = new TextMessageBuilder($this->notSupportedMessage($event));
     
         // merge all message
         $multiMessageBuilder = new MultiMessageBuilder();
