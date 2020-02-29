@@ -103,6 +103,11 @@ class Webhook extends Controller
         }
     }
 
+    public function notSupportedMessage($event)
+    {
+        return 'Silahkan kirim gambar ss Anime, bukan ' . $event['message']['type'];
+    }
+    
     private function textMessage($event)
     {
         $userMessage = $event['message']['text'];
@@ -110,8 +115,44 @@ class Webhook extends Controller
         // for now i dont want to response text message
 
         // create text message
-        $message = 'Silahkan kirim gambar ss Anime, bukan teks';
+        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
+
+        // send message
+        $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+    }
+
+    private function imageMessage($event)
+    {
+        // create text message
+        $message = 'Ok, yang kamu kirim gambar. Tapi, fiturnya belum jadi. Sabar ya';
         $textMessageBuilder = new TextMessageBuilder($message);
+
+        // send message
+        $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+    }
+
+    private function videoMessage($event)
+    {
+        // create text message
+        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
+
+        // send message
+        $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+    }
+
+    private function audioMessage($event)
+    {
+        // create text message
+        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
+
+        // send message
+        $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+    }
+
+    private function fileMessage($event)
+    {
+        // create text message
+        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
 
         // send message
         $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
@@ -122,9 +163,7 @@ class Webhook extends Controller
         // create sticker message
         $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
     
-        // create text message
-        $message = 'Silahkan kirim gambar ss Anime, bukan stiker';
-        $textMessageBuilder = new TextMessageBuilder($message);
+        $textMessageBuilder = new TextMessageBuilder(notSupportedMessage($event));
     
         // merge all message
         $multiMessageBuilder = new MultiMessageBuilder();
