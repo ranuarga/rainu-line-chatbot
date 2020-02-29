@@ -84,7 +84,7 @@ class Webhook extends Controller
             $message  = "Salam kenal " . $profile['displayName'] . ", ";
             $message .= "r a i n u adalah chatbot untuk submission dicoding & berfungsi ";
             $message .= "membantu menemukan judul, episode & bahkan di detik kebarapa scene dari sebuah anime ";
-            $message .= "hanya dengan mengirimkan ss nya ke ruang obrolan menggunakan https://soruly.github.io/trace.moe/#/. ";
+            $message .= "hanya dengan mengirimkan ss nya ke ruang obrolan menggunakan https://soruly.github.io/trace.moe/#/ . ";
             $message .= "Sayangnya, API tsb membatasi penggunaan hanya 10 pencarian/menit dan 150 pencarian/hari. ";
             $message .= "Jika anda menemukan bug/tertarik melihat source code chatbot ini kunjungi ";
             $message .= "https://github.com/ranuarga/rainu-line-chatbot";
