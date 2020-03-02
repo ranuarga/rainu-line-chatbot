@@ -124,7 +124,7 @@ class Webhook extends Controller
 
     private function imageMessage($event)
     {
-        // $client = new Client();
+        $client = new Client();
         $message = 'Fitur ini belum jadi';
         $response = $this->bot->getMessageContent($event['message']['id']);
         if ($response->isSucceeded()) {
@@ -132,8 +132,7 @@ class Webhook extends Controller
             fwrite($tempfile, $response->getRawBody());
 
             file_put_contents('php://stderr', 'tempfile: ' . $tempfile);
-            $res = $client
-                ->request('POST', 'https://trace.moe/api/search', [
+            $res = $this->client->request('POST', 'https://trace.moe/api/search', [
                     'multipart' => [
                         [
                             'name'     => 'file',
