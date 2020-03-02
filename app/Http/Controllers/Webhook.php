@@ -135,7 +135,8 @@ class Webhook extends Controller
         //     error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
         // }
 
-        $textMessageBuilder = new TextMessageBuilder($event['message']['id']);
+        // $textMessageBuilder = new TextMessageBuilder($event['message']['id']);
+        $textMessageBuilder = new TextMessageBuilder($response);
 
         // send message
         $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
