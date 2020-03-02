@@ -126,7 +126,7 @@ class Webhook extends Controller
         // create text message
         $message = 'Ok, yang kamu kirim gambar. Tapi, fiturnya belum jadi. Sabar ya';
         
-        $response = $bot->getMessageContent($event['message']['id']);
+        $response = $this->bot->getMessageContent($event['message']['id']);
         if ($response->isSucceeded()) {
             // $tempfile = tmpfile();
             // fwrite($tempfile, $response->getRawBody());
