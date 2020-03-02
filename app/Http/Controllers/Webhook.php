@@ -129,7 +129,7 @@ class Webhook extends Controller
         $response = $this->bot->getMessageContent($event['message']['id']);
         if ($response->isSucceeded()) {
             $tempfile = tmpfile();
-            fwrite($tempfile, $response->getRawBody());
+            // fwrite($tempfile, $response->getRawBody());
 
             // file_put_contents('php://stderr', 'tempfile: ' . $tempfile);
             // $res = $client
