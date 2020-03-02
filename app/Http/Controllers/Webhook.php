@@ -28,6 +28,10 @@ class Webhook extends Controller
      * @var Response
      */
     private $response;
+    /**
+     * @var client
+     */
+    private $client;
 
     public function __construct(Request $request, Response $response) 
     {
@@ -37,6 +41,7 @@ class Webhook extends Controller
         // create bot object
         $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
         $this->bot  = new LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+        $this->$client = new Client();
     }
 
     public function __invoke()
@@ -124,7 +129,6 @@ class Webhook extends Controller
 
     private function imageMessage($event)
     {
-        $client = new Client();
         $message = 'Fitur ini belum jadi';
         $response = $this->bot->getMessageContent($event['message']['id']);
         if ($response->isSucceeded()) {
