@@ -41,7 +41,7 @@ class Webhook extends Controller
         // create bot object
         $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
         $this->bot  = new LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-        $this->$client = new Client();
+        $this->client = new Client();
     }
 
     public function __invoke()
