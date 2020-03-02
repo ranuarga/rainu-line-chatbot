@@ -124,7 +124,8 @@ class Webhook extends Controller
     private function imageMessage($event)
     {
         // create text message
-        $message = 'Ok, yang kamu kirim gambar. Tapi, fiturnya belum jadi. Sabar ya';
+        // $message = 'Ok, yang kamu kirim gambar. Tapi, fiturnya belum jadi. Sabar ya';
+        $message = $event['content'];
         $textMessageBuilder = new TextMessageBuilder($message);
 
         // send message
