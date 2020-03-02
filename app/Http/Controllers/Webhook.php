@@ -131,7 +131,7 @@ class Webhook extends Controller
             $tempfile = tmpfile();
             fwrite($tempfile, $response->getRawBody());
 
-            file_put_contents('php://stderr', 'tempfile: ' . $tempfile);
+            // file_put_contents('php://stderr', 'tempfile: ' . $tempfile);
             // $res = $client
             //     ->request('POST', 'https://trace.moe/api/search', [
             //         'multipart' => [
