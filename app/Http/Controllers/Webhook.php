@@ -127,17 +127,14 @@ class Webhook extends Controller
         // $message = 'Ok, yang kamu kirim gambar. Tapi, fiturnya belum jadi. Sabar ya';
         
         $response = $this->bot->getMessageContent($event['message']['id']);
-        $response = json_decode($response);
-        // if ($response->isSucceeded()) {
-        //     // $tempfile = tmpfile();
-        //     // fwrite($tempfile, $response->getRawBody());
-        //     $message = $response->getRawBody();
-        // } else {
-        //     error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
-        // }
+        if ($response->isSucceeded()) {
+            $tempfile = tmpfile();
+            fwrite($tempfile, $response->getRawBody());
+        } else {
+            error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
+        }
 
-        // $textMessageBuilder = new TextMessageBuilder($event['message']['id']);
-        $textMessageBuilder = new TextMessageBuilder($response);
+        $textMessageBuilder = new TextMessageBuilder($event['message']['id']);
 
         // send message
         $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
