@@ -130,20 +130,21 @@ class Webhook extends Controller
         if ($response->isSucceeded()) {
             $tempfile = tmpfile();
             fwrite($tempfile, $response->getRawBody());
-
-            $res = $client
-                ->request('POST', 'https://trace.moe/api/search', [
-                    'multipart' => [
-                        [
-                            'name'     => 'file',
-                            'contents' => $tempfile,
-                            'filename' => 'tmp.jpg'
-                        ],
-                    ]
-                ])->getBody()->getContents();
-            
-            $jsonObj = json_decode($res);
-            $message = $jsonObj->docs[0]->synonyms;
+            if(isset($tempfile)){
+                $res = $client
+                    ->request('POST', 'https://trace.moe/api/search', [
+                        'multipart' => [
+                            [
+                                'name'     => 'file',
+                                'contents' => $tempfile,
+                                'filename' => 'tmp.jpg'
+                            ],
+                        ]
+                    ])->getBody()->getContents();
+                
+                $jsonObj = json_decode($res);
+                $message = $jsonObj->docs[0]->synonyms;
+            }
         } else {
             error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
         }
