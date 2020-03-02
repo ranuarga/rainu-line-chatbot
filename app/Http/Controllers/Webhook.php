@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use GuzzleHttp\Client;
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
@@ -27,6 +28,10 @@ class Webhook extends Controller
      * @var Response
      */
     private $response;
+    /**
+     * @var GuzzleClient
+     */
+    private $client;
 
     public function __construct(Request $request, Response $response) 
     {
@@ -36,6 +41,7 @@ class Webhook extends Controller
         // create bot object
         $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
         $this->bot  = new LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+        $this->client = new Client();
     }
 
     public function __invoke()
@@ -123,18 +129,30 @@ class Webhook extends Controller
 
     private function imageMessage($event)
     {
-        // create text message
-        // $message = 'Ok, yang kamu kirim gambar. Tapi, fiturnya belum jadi. Sabar ya';
-        
+        $message = 'Fitur ini belum jadi';
         $response = $this->bot->getMessageContent($event['message']['id']);
         if ($response->isSucceeded()) {
             $tempfile = tmpfile();
             fwrite($tempfile, $response->getRawBody());
+
+            $response = $this->client
+                ->request('POST', 'https://trace.moe/api/search', [
+                    'multipart' => [
+                        [
+                            'name'     => 'file',
+                            'contents' => $tempfile,
+                            'filename' => 'tmp.jpg'
+                        ],
+                    ]
+                ])->getBody()->getContents();
+            
+            $jsonObj = json_decode($response);
+            $message = $jsonObj->docs[0]->synonyms;
         } else {
             error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
         }
 
-        $textMessageBuilder = new TextMessageBuilder($event['message']['id']);
+        $textMessageBuilder = new TextMessageBuilder($message);
 
         // send message
         $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
