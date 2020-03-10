@@ -135,14 +135,16 @@ class Webhook extends Controller
 
     private function imageMessage($event)
     {
+        $img = null;
         $message = 'Fitur ini belum jadi';
         $response = $this->bot->getMessageContent($event['message']['id']);
+        imagejpeg($response, $img);
         if ($response->isSucceeded()) {
             $res = $this->client->request('POST', 'https://trace.moe/api/search', [
                 'multipart' => [
                     [
                         'name' => 'file',
-                        'contents' => imagejpeg($response),
+                        'contents' => $img,
                         'filename' => 'tmp.jpg'
                     ]
                 ]
