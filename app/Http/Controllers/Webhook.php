@@ -135,16 +135,15 @@ class Webhook extends Controller
 
     private function imageMessage($event)
     {
-        $img = null;
         $message = 'Fitur ini belum jadi';
         $response = $this->bot->getMessageContent($event['message']['id']);
-        imagejpeg($response, $img);
+        $img = \Cloudinary\Uploader::upload($response);
         if ($response->isSucceeded()) {
             $res = $this->client->request('POST', 'https://trace.moe/api/search', [
                 'multipart' => [
                     [
                         'name' => 'file',
-                        'contents' => $img,
+                        'contents' => $img['secure_url'],
                         'filename' => 'tmp.jpg'
                     ]
                 ]
