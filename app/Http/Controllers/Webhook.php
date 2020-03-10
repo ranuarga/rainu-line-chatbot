@@ -143,7 +143,7 @@ class Webhook extends Controller
                 'multipart' => [
                     [
                         'name' => 'file',
-                        'contents' => $response->getBody(),
+                        'contents' => $response->getRawBody(),
                         'contents' => $img['secure_url'],
                         'filename' => 'tmp.jpg'
                     ]
