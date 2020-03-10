@@ -141,9 +141,7 @@ class Webhook extends Controller
             $tempfile = tmpfile();
             fwrite($tempfile, $response->getRawBody());
 
-            \Cloudinary\Uploader::upload($tempfile, array(
-                'folder' => 'rainu', 
-            ));
+            \Cloudinary\Uploader::upload($tempfile);
             $res = $this->client->request('POST', 'https://trace.moe/api/search', [
                     'multipart' => [
                         [
