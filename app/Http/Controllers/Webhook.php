@@ -42,6 +42,12 @@ class Webhook extends Controller
         $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
         $this->bot  = new LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
         $this->client = new Client();
+
+        \Cloudinary::config(array(
+            'cloud_name' => $_ENV['CLOUDINARY_CLOUD_NAME'],
+            'api_key' => $_ENV['CLOUDINARY_API_KEY'],
+            'api_secret' => $_ENV['CLOUDINARY_API_SECRET']
+        ));
     }
 
     public function __invoke()
@@ -135,7 +141,9 @@ class Webhook extends Controller
             $tempfile = tmpfile();
             fwrite($tempfile, $response->getRawBody());
 
-            file_put_contents('php://stderr', 'tempfile: ' . $tempfile);
+            \Cloudinary\Uploader::upload($tempfile, array(
+                'folder' => 'rainu', 
+            ));
             $res = $this->client->request('POST', 'https://trace.moe/api/search', [
                     'multipart' => [
                         [
