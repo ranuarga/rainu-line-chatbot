@@ -138,10 +138,7 @@ class Webhook extends Controller
         $message = 'Fitur ini belum jadi';
         $response = $this->bot->getMessageContent($event['message']['id']);
         if ($response->isSucceeded()) {
-            $tempfile = tmpfile();
-            fwrite($tempfile, $response->getRawBody());
-
-            \Cloudinary\Uploader::upload($tempfile);
+            \Cloudinary\Uploader::upload($response->getRawBody());
             $res = $this->client->request('POST', 'https://trace.moe/api/search', [
                     'multipart' => [
                         [
