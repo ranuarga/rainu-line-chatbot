@@ -136,14 +136,11 @@ class Webhook extends Controller
     private function imageMessage($event)
     {
         $message = 'Fitur ini belum jadi';
-        // echo 'data:image/png;base64,'. base64_encode(imagejpeg($stream));
-        $client = new Client();
-        $req = $client->get('https://api-data.line.me/v2/bot/message/'. $event['message']['id'] . '/content');
-        $req->addHeader('Authorization', 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}');
-        $req->setResponseBody('/tmp/test.jpg');
-        $response = $req->send();
-
-        // file_put_contents('php://stderr', 'Image: ' . $img);
+        $img = $this->client->request('GET', 'https://api-data.line.me/v2/bot/message/'. $event['message']['id'] . '/content', [
+            'headers' => [
+                'Authorization' => 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}'
+            ]
+        ])->setResponseBody('/tmp/test.jpg');
         $res = $this->client->request('POST', 'https://trace.moe/api/search', [
             'multipart' => [
                 [
