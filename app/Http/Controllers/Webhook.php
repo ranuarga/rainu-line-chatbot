@@ -140,13 +140,13 @@ class Webhook extends Controller
             'headers' => [
                 'Authorization' => 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}'
             ],
-            'sink' => '/tmp/test.jpg'
+            'sink' => $image
         ]);
         $res = $this->client->request('POST', 'https://trace.moe/api/search', [
             'multipart' => [
                 [
                     'name' => 'file',
-                    'contents' => fopen('/tmp/test.jpg', 'r'),
+                    'contents' => $image,
                     'filename' => 'tmp.jpg'
                 ]
             ]
