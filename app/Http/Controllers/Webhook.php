@@ -136,6 +136,7 @@ class Webhook extends Controller
     private function imageMessage($event)
     {
         $message = 'Fitur ini belum jadi';
+        $image = null;
         $img = $this->client->request('GET', 'https://api-data.line.me/v2/bot/message/'. $event['message']['id'] . '/content', [
             'headers' => [
                 'Authorization' => 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}'
