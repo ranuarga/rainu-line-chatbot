@@ -136,15 +136,29 @@ class Webhook extends Controller
     private function imageMessage($event)
     {
         $message = 'Fitur ini belum jadi';
-        $response = $this->bot->getMessageContent($event['message']['id']);
+        $img = $this->client->request('GET', 'https://api-data.line.me/v2/bot/message/'. $event['message']['id'] . '/content', [
+            'headers' => [
+                'Authorization' => 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}'
+            ]
+        ])->getBody()->getContents();
+        // $response = $this->bot->getMessageContent($event['message']['id']);
         // $img = \Cloudinary\Uploader::upload($response);
-        if ($response->isSucceeded()) {
+        // if ($response->isSucceeded()) {
+            // $res = $this->client->request('POST', 'https://trace.moe/api/search', [
+            //     'multipart' => [
+            //         [
+            //             'name' => 'file',
+            //             'contents' => $response->getRawBody(),
+            //             'contents' => $img['secure_url'],
+            //             'filename' => 'tmp.jpg'
+            //         ]
+            //     ]
+            // ])->getBody()->getContents();
             $res = $this->client->request('POST', 'https://trace.moe/api/search', [
                 'multipart' => [
                     [
                         'name' => 'file',
-                        'contents' => $response->getRawBody(),
-                        'contents' => $img['secure_url'],
+                        'contents' => $img,
                         'filename' => 'tmp.jpg'
                     ]
                 ]
@@ -152,9 +166,9 @@ class Webhook extends Controller
             
             $jsonObj = json_decode($res);
             $message = $jsonObj->docs[0]->synonyms;
-        } else {
-            error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
-        }
+        // } else {
+        //     error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
+        // }
 
         $textMessageBuilder = new TextMessageBuilder($message);
 
