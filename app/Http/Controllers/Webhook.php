@@ -137,7 +137,8 @@ class Webhook extends Controller
     {
         $message = 'Fitur ini belum jadi';
         // echo 'data:image/png;base64,'. base64_encode(imagejpeg($stream));
-        $req = $this->client->get('https://api-data.line.me/v2/bot/message/'. $event['message']['id'] . '/content');
+        $client = new \Guzzle\Service\Client();
+        $req = $client->get('https://api-data.line.me/v2/bot/message/'. $event['message']['id'] . '/content');
         $req->addHeader('Authorization', 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}');
         $req->setResponseBody('/tmp/test.jpg');
         $response = $req->send();
