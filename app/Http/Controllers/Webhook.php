@@ -140,9 +140,9 @@ class Webhook extends Controller
             'headers' => [
                 'Authorization' => 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}'
             ]
-        ])->getBody()->getContents();
-        $img = json_decode($img);
-        file_put_contents('php://stderr', 'Image: ' . $img);
+        ]);
+        $img = $img['image']['value']->getHeader('Content-Length')[0];
+        // file_put_contents('php://stderr', 'Image: ' . $img);
         $res = $this->client->request('POST', 'https://trace.moe/api/search', [
             'multipart' => [
                 [
