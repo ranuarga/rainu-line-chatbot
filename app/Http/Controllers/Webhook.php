@@ -141,6 +141,7 @@ class Webhook extends Controller
                 'Authorization' => 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}'
             ]
         ])->getBody()->getContents();
+        $img = json_decode($img);
         // $response = $this->bot->getMessageContent($event['message']['id']);
         // $img = \Cloudinary\Uploader::upload($response);
         // if ($response->isSucceeded()) {
