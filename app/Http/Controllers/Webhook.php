@@ -142,34 +142,19 @@ class Webhook extends Controller
             ]
         ])->getBody()->getContents();
         $img = json_decode($img);
-        // $response = $this->bot->getMessageContent($event['message']['id']);
-        // $img = \Cloudinary\Uploader::upload($response);
-        // if ($response->isSucceeded()) {
-            // $res = $this->client->request('POST', 'https://trace.moe/api/search', [
-            //     'multipart' => [
-            //         [
-            //             'name' => 'file',
-            //             'contents' => $response->getRawBody(),
-            //             'contents' => $img['secure_url'],
-            //             'filename' => 'tmp.jpg'
-            //         ]
-            //     ]
-            // ])->getBody()->getContents();
-            $res = $this->client->request('POST', 'https://trace.moe/api/search', [
-                'multipart' => [
-                    [
-                        'name' => 'file',
-                        'contents' => $img,
-                        'filename' => 'tmp.jpg'
-                    ]
+        error_log($response->getHTTPStatus() . ' ' . $img);
+        $res = $this->client->request('POST', 'https://trace.moe/api/search', [
+            'multipart' => [
+                [
+                    'name' => 'file',
+                    'contents' => $img,
+                    'filename' => 'tmp.jpg'
                 ]
-            ])->getBody()->getContents();
+            ]
+        ])->getBody()->getContents();
             
-            $jsonObj = json_decode($res);
-            $message = $jsonObj->docs[0]->synonyms;
-        // } else {
-        //     error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
-        // }
+        $jsonObj = json_decode($res);
+        $message = $jsonObj->docs[0]->synonyms;
 
         $textMessageBuilder = new TextMessageBuilder($message);
 
