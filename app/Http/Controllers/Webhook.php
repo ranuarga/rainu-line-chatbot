@@ -139,13 +139,14 @@ class Webhook extends Controller
         $img = $this->client->request('GET', 'https://api-data.line.me/v2/bot/message/'. $event['message']['id'] . '/content', [
             'headers' => [
                 'Authorization' => 'Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}'
-            ]
+            ],
+            'sink' => '/tmp/test.jpg'
         ])->setBody('/tmp/test.jpg');
         $res = $this->client->request('POST', 'https://trace.moe/api/search', [
             'multipart' => [
                 [
                     'name' => 'file',
-                    'contents' => '/tmp/test.jpg',
+                    'contents' => fopen('/tmp/test.jpg', 'r'),
                     'filename' => 'tmp.jpg'
                 ]
             ]
