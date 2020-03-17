@@ -142,7 +142,7 @@ class Webhook extends Controller
             ]
         ])->getBody()->getContents();
         $img = json_decode($img);
-        error_log($img);
+        file_put_contents('php://stderr', 'Image: ' . $img);
         $res = $this->client->request('POST', 'https://trace.moe/api/search', [
             'multipart' => [
                 [
