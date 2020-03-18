@@ -144,14 +144,14 @@ class Webhook extends Controller
         curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
         $picture = curl_exec($ch);
         curl_close($ch);
+
         $cloud = \Cloudinary\Uploader::upload('data:image/png;base64,' . base64_encode($picture));
-        $res = $this->client->request('GET', 'https://trace.moe/api/search?url=' . $cloud['secure_url'])->getBody()->getContents();
-        // $res = $this->client->request('POST', 'https://trace.moe/api/search', [
-        //     'form_params' => [
-        //         'image' => 'data:image/png;base64,' . base64_encode($picture),
-        //     ],
-        // ])->getBody()->getContents();
-            
+        
+        $ch = curl_init(); 
+        curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search?url=' . $cloud['secure_url']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+        $res = curl_exec($ch); 
+        curl_close($ch);
         $jsonObj = json_decode($res);
         $message = $jsonObj->docs[0]->synonyms;
 
