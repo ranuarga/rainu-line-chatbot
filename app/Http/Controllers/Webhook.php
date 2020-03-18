@@ -145,13 +145,9 @@ class Webhook extends Controller
         $picture = curl_exec($ch);
         curl_close($ch);
         $res = $this->client->request('POST', 'https://trace.moe/api/search', [
-            'multipart' => [
-                [
-                    'name' => 'file',
-                    'contents' => $picture,
-                    'filename' => 'tmp.jpg'
-                ]
-            ]
+            'form_params' => [
+                'image' => 'data:image/jpg;base64,' . base64_encode($picture),
+            ],
         ])->getBody()->getContents();
             
         $jsonObj = json_decode($res);
