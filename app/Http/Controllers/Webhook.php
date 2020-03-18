@@ -144,6 +144,7 @@ class Webhook extends Controller
         curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
         $picture = curl_exec($ch);
         curl_close($ch);
+        \Cloudinary\Uploader::upload('data:image/png;base64,' . base64_encode($picture));
         $res = $this->client->request('POST', 'https://trace.moe/api/search', [
             'form_params' => [
                 'image' => 'data:image/jpg;base64,' . base64_encode($picture),
