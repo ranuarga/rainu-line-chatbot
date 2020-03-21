@@ -141,15 +141,20 @@ class Webhook extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer {'. getenv('CHANNEL_ACCESS_TOKEN') . '}'));
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
         $picture = curl_exec($ch);
         curl_close($ch);
 
-        $cloud = \Cloudinary\Uploader::upload('data:image/png;base64,' . base64_encode($picture));
-        
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search?url=' . $cloud['secure_url']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+        // $cloud = \Cloudinary\Uploader::upload('data:image/png;base64,' . base64_encode($picture));        
+        // $ch = curl_init(); 
+        // curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search?url=' . $cloud['secure_url']);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+        $ch = curl_init();
+        $data = array('image' => $picture);
+        curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $res = curl_exec($ch); 
         curl_close($ch);
         $jsonObj = json_decode($res);
