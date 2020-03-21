@@ -158,7 +158,7 @@ class Webhook extends Controller
         $textMessageBuilder = new TextMessageBuilder($message);
 
         // send message
-        $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+        $this->bot->pushMessage($event['source']['userId'], $textMessageBuilder);
     }
 
     private function videoMessage($event)
