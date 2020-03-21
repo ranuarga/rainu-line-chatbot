@@ -149,18 +149,30 @@ class Webhook extends Controller
         // $ch = curl_init(); 
         // curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search?url=' . $cloud['secure_url']);
         // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-        // $res = curl_exec($ch);
-        // curl_close($ch);
-        $res = $this->client
-            ->request('POST', 'https://trace.moe/api/search', [
-                    'multipart' => [
-                        [
-                            'name'     => 'image',
-                            'contents' => $picture,
-                            'filename' => 'tmp.jpg'
-                        ],
-                    ]
-            ])->getBody()->getContents();
+
+        // $res = $this->client
+        //     ->request('POST', 'https://trace.moe/api/search', [
+        //             'multipart' => [
+        //                 [
+        //                     'name'     => 'image',
+        //                     'contents' => $picture,
+        //                     'filename' => 'tmp.jpg'
+        //                 ],
+        //             ]
+        //     ])->getBody()->getContents();
+
+        $ch = curl_init();
+        $picture = new CURLFile($picture);
+        $data = array('image' => $picture);
+        curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $res = curl_exec($ch);
+        if (curl_errno($ch)) {
+            $res = curl_error($ch);
+        }
+        curl_close($ch);
         $jsonObj = json_decode($res);
         $message = $jsonObj;
 
