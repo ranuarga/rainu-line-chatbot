@@ -153,7 +153,7 @@ class Webhook extends Controller
         $data = array('image' => $picture);
         curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search');
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $res = curl_exec($ch); 
         curl_close($ch);
