@@ -155,7 +155,9 @@ class Webhook extends Controller
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $res = curl_exec($ch); 
+        $res = curl_exec($ch);
+        if ($res === false)
+            $res = curl_error($ch);
         curl_close($ch);
         $jsonObj = json_decode($res);
         $message = $jsonObj;
