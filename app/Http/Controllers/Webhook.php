@@ -158,7 +158,7 @@ class Webhook extends Controller
         $res = curl_exec($ch); 
         curl_close($ch);
         $jsonObj = json_decode($res);
-        $message = $jsonObj->docs[0]->synonyms;
+        $message = $jsonObj;
 
         $textMessageBuilder = new TextMessageBuilder($message);
 
