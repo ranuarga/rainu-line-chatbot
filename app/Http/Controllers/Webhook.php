@@ -35,6 +35,8 @@ class Webhook extends Controller
 
     public function __construct(Request $request, Response $response) 
     {
+        set_time_limit(30);
+        
         $this->request = $request;
         $this->response = $response;
 
@@ -150,27 +152,27 @@ class Webhook extends Controller
         // curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search?url=' . $cloud['secure_url']);
         // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 
-        // $res = $this->client
-        //     ->request('POST', 'https://trace.moe/api/search', [
-        //             'multipart' => [
-        //                 [
-        //                     'name'     => 'image',
-        //                     'contents' => $picture,
-        //                     'filename' => 'tmp.jpg'
-        //                 ],
-        //             ]
-        //     ])->getBody()->getContents();
+        $res = $this->client
+            ->request('POST', 'https://trace.moe/api/search', [
+                    'multipart' => [
+                        [
+                            'name'     => 'image',
+                            'contents' => $picture,
+                            'filename' => 'tmp.jpg'
+                        ],
+                    ]
+            ])->getBody()->getContents();
 
-        $ch = curl_init();
-        $data = array('image' => 'data:image/png;base64,' . base64_encode($picture));
-        curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $res = curl_exec($ch);
-        if (curl_errno($ch)) {
-            $res = curl_error($ch);
-        }
-        curl_close($ch);
+        // $ch = curl_init();
+        // $data = array('image' => 'data:image/png;base64,' . base64_encode($picture));
+        // curl_setopt($ch, CURLOPT_URL, 'https://trace.moe/api/search');
+        // curl_setopt($ch, CURLOPT_POST, 1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        // $res = curl_exec($ch);
+        // if (curl_errno($ch)) {
+        //     $res = curl_error($ch);
+        // }
+        // curl_close($ch);
         $jsonObj = json_decode($res);
         $message = $jsonObj;
 
