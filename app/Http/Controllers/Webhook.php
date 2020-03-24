@@ -34,9 +34,7 @@ class Webhook extends Controller
     private $client;
 
     public function __construct(Request $request, Response $response) 
-    {
-        set_time_limit(30);
-        
+    {       
         $this->request = $request;
         $this->response = $response;
 
